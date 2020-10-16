@@ -1,4 +1,4 @@
-![elefgy logo](assets/elefgy.png?raw=true)
+![elefgy logo](assets/elefgy_logo.png)
 *noun*, el·ef·jee, [ɛl.ɛf.dʒi]
 
 An online community and suite of utilities to help connect gamers. Named after the commonly used abbreviation LFG for
