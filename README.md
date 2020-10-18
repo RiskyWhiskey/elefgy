@@ -2,16 +2,17 @@
 
 ## *noun*, el·ef·jee, [ɛl.ɛf.dʒi]
 
-An online community and suite of utilities to help connect gamers. Named after
-the commonly used abbreviation LFG for the phrase 'looking for group'. The goal
-is to give all gamers an easy to use cross-platform way to meet other gamers of
-any of their favourite games. From co-op in a battle-royale on whichever console
-to just to share moments in a single player role-playing game.
+An online community and web app to help connect gamers. Named after the verbal
+pronunciation of the commonly used abbreviation 'LFG' for the phrase 'looking
+for group'. The goal is to give all gamers an easy-to-use cross-platform way to
+meet other like-minded gamers of any of their chosen games. From co-op in the
+latest battle-royale on whichever console to just sharing moments in an
+old-school single-player role-playing game.
 
 # Special Thanks To
 
-## Developers
+## Core Team
 
-## GitHub Contributors
+## Contributors
 
-## Patreons
+## Patrons
