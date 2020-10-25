@@ -24,7 +24,7 @@ working beta within the first half of 2021.
 
 # License
 
-Copyright (C) 2019 Ian Whitnall ([@NyxTheMage](https://github.com/NyxTheMage))
+Copyright &copy; 2019 Ian Whitnall ([@NyxTheMage](https://github.com/NyxTheMage))
 
 This Source Code Form is subject to the terms of the Mozilla Public License,
 v. 2.0, [LICENSE.md](LICENSE.md). If a copy of the MPL was not distributed
