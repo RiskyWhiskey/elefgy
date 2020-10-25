@@ -12,7 +12,7 @@ old-school single-player role-playing game.
 # When?
 
 RiskyWhiskey is currently a one-man team but there is hope there will be a
-working beta by the first quarter of 2021.
+working beta within the first half of 2021.
 
 # Special Thanks To
 
@@ -21,3 +21,11 @@ working beta by the first quarter of 2021.
 ## Contributors
 
 ## Patrons
+
+# License
+
+Copyright (C) 2019 Ian Whitnall (@NyxTheMage)
+
+This Source Code Form is subject to the terms of the Mozilla Public License,
+v. 2.0, [LICENSE.md](LICENSE.md). If a copy of the MPL was not distributed
+with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
