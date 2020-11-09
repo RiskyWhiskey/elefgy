@@ -1,3 +1,7 @@
+# Ignore these please
+node_modules
+.env
+
 # OS X temporary files that should never be committed
 .vs
 .DS_Store
