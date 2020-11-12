@@ -9,7 +9,7 @@ const helmet = require('helmet');
 
 const elefgy = {
   name: 'elefgy',
-  version: '0.0.0'
+  version: '0.0.1'
 };
 
 // Main process creates workers and listens for their exit
