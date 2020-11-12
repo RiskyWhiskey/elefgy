@@ -12,24 +12,41 @@ const elefgy = {
   version: '0.0.1'
 };
 
-// Main process creates workers and listens for their exit
 if (cluster.isMaster) {
-  console.log(`[${elefgy.name}] ${elefgy.version} has started`);
+  // Create workers
+  console.log(`[${elefgy.name}] ${elefgy.version} starting (${process.pid})`);
   const clusterSize = process.env.WEB_CONCURRENCY || 1;
   for (let i = 0; i < clusterSize; i++) {
     cluster.fork();
   }
+  // Workers are alive
   cluster.on('listening', (worker, address) => {
     console.log(`[${elefgy.name}] worker ${worker.process.pid}`,
         `listening on ${address.port}`);
   });
+  // Replace dead workers
   cluster.on('exit', (worker, code, signal) => {
-    console.log(`[${elefgy.name}] worker ${worker.process.pid}`,
-        `has exited (${code || signal}) restarting`);
-    cluster.fork();
+    if (code === null) {
+      console.log(`[${elefgy.name}] worker ${worker.process.pid}`,
+          `has exited (${signal})`);
+    }
+    if (signal === null) {
+      console.log(`[${elefgy.name}] worker ${worker.process.pid}`,
+          `has exited (${code})`);
+    }
+    if (signal !== 'SIGTERM') {
+      cluster.fork();
+    }
+  });
+  // Exit and kill all workers
+  process.on('SIGTERM', (code) => {
+    for (const id in cluster.workers) {
+      cluster.workers[id].kill();
+    }
+    console.log(`[${elefgy.name}] exiting (${code})`);
   });
 
-// Each worker creates a server to listen to port
+// Each worker is serving requests
 } else {
   const PORT = process.env.PORT || 5000;
   const app = express();
