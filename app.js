@@ -12,24 +12,27 @@ const logger = winston.createLogger({
   transports: [
     new winston.transports.File({
       filename: 'logs/error.log',
-      level: 'error'
+      level: 'error',
     }),
     new winston.transports.File({
-      filename: 'logs/combined.log'
-    })
-  ]
+      filename: 'logs/combined.log',
+    }),
+  ],
 });
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
   logger.add(new winston.transports.Console({
-    format: winston.format.simple()
+    format: winston.format.combine(
+      winston.format.colorize(),
+      winston.format.simple()
+    ),
   }));
 }
 
 const elefgy = {
   name: 'elefgy',
-  version: '0.0.1'
+  version: '0.0.1',
 };
 
 if (cluster.isMaster) {
@@ -47,8 +50,9 @@ if (cluster.isMaster) {
   cluster.on('exit', (worker, code, signal) => {
     if (code === null) {
       logger.info(`worker ${worker.process.pid} has exited (${signal})`);
-    }
-    if (signal === null) {
+    } else if (code !== 0) {
+      logger.error(`worker ${worker.process.pid} has exited (${code})`);
+    } else if (signal === null) {
       logger.info(`worker ${worker.process.pid} has exited (${code})`);
     }
     if (signal !== 'SIGTERM') {

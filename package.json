@@ -2,10 +2,10 @@
   "name": "elefgy",
   "version": "0.0.1",
   "description": "Gamers looking for groups",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "start": "node index.js",
-    "devStart": "nodemon index.js"
+    "start": "node app.js",
+    "devStart": "nodemon app.js"
   },
   "repository": {
     "type": "git",
