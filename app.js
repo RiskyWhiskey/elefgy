@@ -3,9 +3,11 @@
 const winston = require('winston');
 const cluster = require('cluster');
 const express = require('express');
+const mongoose = require('mongoose');
 const helmet = require('helmet');
 const path = require('path');
 
+// The logs
 const logger = winston.createLogger({
   level: 'info',
   format: winston.format.json(),
@@ -13,13 +15,20 @@ const logger = winston.createLogger({
     new winston.transports.File({
       filename: 'logs/error.log',
       level: 'error',
+      maxsize: 5242880,
+      maxFiles: 3,
+      tailable: true,
     }),
     new winston.transports.File({
       filename: 'logs/combined.log',
+      maxsize: 5242880,
+      maxFiles: 5,
+      tailable: true,
     }),
   ],
 });
 
+// Development only
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
   logger.add(new winston.transports.Console({
@@ -30,6 +39,7 @@ if (process.env.NODE_ENV !== 'production') {
   }));
 }
 
+// Config could be better
 const elefgy = {
   name: 'elefgy',
   version: '0.0.1',
@@ -68,6 +78,16 @@ if (cluster.isMaster) {
   });
 
 } else {
+  // Workers connect to database
+  mongoose.connect(process.env.DATABASE_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+  const db = mongoose.connection;
+  db.on('error', console.error.bind(console, 'connection error:'));
+  db.once('open', () => {
+    logger.info(`worker ${process.pid} connected to database`);
+  });
   // Each worker is serving requests
   const PORT = process.env.PORT || 5000;
   const app = express();
