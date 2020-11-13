@@ -78,17 +78,17 @@ if (cluster.isMaster) {
 
 } else {
   // Workers connect to database
-  mongoose.connect(process.env.DATABASE_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
-  const db = mongoose.connection;
-  db.on('error', (err) => {
-    logger.error(`worker ${process.pid} ${err}`);
-  });
-  db.once('open', () => {
-    logger.info(`worker ${process.pid} connected to database`);
-  });
+  // mongoose.connect(process.env.DATABASE_URI, {
+  //   useNewUrlParser: true,
+  //   useUnifiedTopology: true,
+  // });
+  // const db = mongoose.connection;
+  // db.on('error', (err) => {
+  //   logger.error(`worker ${process.pid} ${err}`);
+  // });
+  // db.once('open', () => {
+  //   logger.info(`worker ${process.pid} connected to database`);
+  // });
   // Each worker is serving requests
   const PORT = process.env.PORT || 5000;
   const app = express();
