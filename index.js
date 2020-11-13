@@ -1,11 +1,31 @@
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config();
-}
+'use strict';
 
+const winston = require('winston');
 const cluster = require('cluster');
 const express = require('express');
-const path = require('path');
 const helmet = require('helmet');
+const path = require('path');
+
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.json(),
+  transports: [
+    new winston.transports.File({
+      filename: 'logs/error.log',
+      level: 'error'
+    }),
+    new winston.transports.File({
+      filename: 'logs/combined.log'
+    })
+  ]
+});
+
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+  logger.add(new winston.transports.Console({
+    format: winston.format.simple()
+  }));
+}
 
 const elefgy = {
   name: 'elefgy',
@@ -14,25 +34,22 @@ const elefgy = {
 
 if (cluster.isMaster) {
   // Create workers
-  console.log(`[${elefgy.name}] ${elefgy.version} starting (${process.pid})`);
+  logger.info(`${elefgy.name} ${elefgy.version} starting (${process.pid})`);
   const clusterSize = process.env.WEB_CONCURRENCY || 1;
   for (let i = 0; i < clusterSize; i++) {
     cluster.fork();
   }
   // Workers are alive
   cluster.on('listening', (worker, address) => {
-    console.log(`[${elefgy.name}] worker ${worker.process.pid}`,
-        `listening on ${address.port}`);
+    logger.info(`worker ${worker.process.pid} listening on ${address.port}`);
   });
   // Replace dead workers
   cluster.on('exit', (worker, code, signal) => {
     if (code === null) {
-      console.log(`[${elefgy.name}] worker ${worker.process.pid}`,
-          `has exited (${signal})`);
+      logger.info(`worker ${worker.process.pid} has exited (${signal})`);
     }
     if (signal === null) {
-      console.log(`[${elefgy.name}] worker ${worker.process.pid}`,
-          `has exited (${code})`);
+      logger.info(`worker ${worker.process.pid} has exited (${code})`);
     }
     if (signal !== 'SIGTERM') {
       cluster.fork();
@@ -43,11 +60,11 @@ if (cluster.isMaster) {
     for (const id in cluster.workers) {
       cluster.workers[id].kill();
     }
-    console.log(`[${elefgy.name}] exiting (${code})`);
+    logger.info(`${elefgy.name} exiting (${code})`);
   });
 
-// Each worker is serving requests
 } else {
+  // Each worker is serving requests
   const PORT = process.env.PORT || 5000;
   const app = express();
   app.use(helmet());

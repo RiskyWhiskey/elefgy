@@ -1,6 +1,7 @@
 # Ignore these please
 node_modules
 .env
+logs
 
 # OS X temporary files that should never be committed
 .vs
