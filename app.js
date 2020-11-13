@@ -5,7 +5,6 @@ const cluster = require('cluster');
 const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
-const path = require('path');
 
 // The logs
 const logger = winston.createLogger({
@@ -94,8 +93,8 @@ if (cluster.isMaster) {
   const PORT = process.env.PORT || 5000;
   const app = express();
   app.use(helmet());
-  app.use(express.static(path.join(__dirname, 'public')));
-  app.set('views', path.join(__dirname, 'views'));
+  app.use(express.static('public'));
+  app.set('views', 'views');
   app.set('view engine', 'ejs');
   app.get('/', (req, res) => {
     res.render('home');
