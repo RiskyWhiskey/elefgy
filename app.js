@@ -88,16 +88,22 @@ if (cluster.isMaster) {
   //   logger.info(`worker ${process.pid} connected to database`);
   // });
   // Each worker is serving requests
-  const PORT = process.env.PORT || 5000;
   const app = express();
   app.use(helmet());
-  app.use(express.static('public'));
-  app.set('views', 'views');
-  app.set('view engine', 'ejs');
-  app.get('/', (req, res) => {
-    res.render('home');
-  });
-  const server = app.listen(PORT);
+  app.use(express.static('./public'));
+  if (process.env.ELEFGY_DOWN === 'true') {
+    app.get('/*', (req, res) => {
+      res.sendFile('./public/index.html');
+    });
+  } else {
+    app.set('views', './views');
+    app.set('view engine', 'ejs');
+    app.get('/', (req, res) => {
+      res.render('home');
+    });
+  }
+  const port = process.env.PORT || 5000;
+  const server = app.listen(port);
   process.on('exit', () => {
     server.close();
   });
