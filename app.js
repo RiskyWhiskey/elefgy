@@ -15,7 +15,7 @@ if (environment === 'development') {
 }
 
 // Setup the logging
-require('./bin/setupWinston').setupWinston();
+require('./bin/setupWinston').start();
 
 // Config could be better
 const elefgy = {
@@ -58,7 +58,7 @@ if (cluster.isMaster) {
 } else {
   // Workers connect to database
   try {
-    require('./bin/setupMongoose').setupMongoose();
+    require('./bin/setupMongoose').start();
   } catch {
     winston.error(`worker ${process.pid} cannot connect to database`);
     process.exit(1);
