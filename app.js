@@ -22,12 +22,11 @@ const logger = winston.createLogger({
 if (environment === 'development') {
   require('dotenv').config();
   logger.add(new winston.transports.File({
-      filename: 'logs/app.log',
-      maxsize: 5242880,
-      maxFiles: 3,
-      tailable: true,
-    })
-  );
+    filename: 'logs/app.log',
+    maxsize: 5242880,
+    maxFiles: 3,
+    tailable: true,
+  }));
 }
 
 // Config could be better
@@ -70,17 +69,24 @@ if (cluster.isMaster) {
 
 } else {
   // Workers connect to database
-  // mongoose.connect(process.env.DATABASE_URI, {
-  //   useNewUrlParser: true,
-  //   useUnifiedTopology: true,
-  // });
-  // const db = mongoose.connection;
-  // db.on('error', (err) => {
-  //   logger.error(`worker ${process.pid} ${err}`);
-  // });
-  // db.once('open', () => {
-  //   logger.info(`worker ${process.pid} connected to database`);
-  // });
+  try {
+    mongoose.connect(process.env.DATABASE_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+  } catch {
+    logger.error(`worker ${process.pid} cannot connect to database`);
+    process.exit(1);
+  }
+  mongoose.connection.on('error', () => {
+    logger.error(`worker ${process.pid} has had a database connection error`);
+  });
+  mongoose.connection.on('connected', () => {
+    logger.info(`worker ${process.pid} connected to database`);
+  });
+  mongoose.connection.on('disconnected', () => {
+    logger.info(`worker ${process.pid} disconnected from database`);
+  });
   // Each worker is serving requests
   const app = express();
   app.use(helmet());
@@ -98,7 +104,9 @@ if (cluster.isMaster) {
   }
   const port = process.env.PORT || 5000;
   const server = app.listen(port);
+  // Graceful exit
   process.on('exit', () => {
+    mongoose.disconnect();
     server.close();
   });
 }
