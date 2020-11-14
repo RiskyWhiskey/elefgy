@@ -1,5 +1,6 @@
 'use strict';
 
+const path = require('path');
 const winston = require('winston');
 const cluster = require('cluster');
 const express = require('express');
@@ -90,13 +91,13 @@ if (cluster.isMaster) {
   // Each worker is serving requests
   const app = express();
   app.use(helmet());
-  app.use(express.static('./public'));
+  app.use(express.static(path.join(__dirname, 'public')));
   if (process.env.ELEFGY_DOWN === 'true') {
     app.get('/*', (req, res) => {
-      res.sendFile('./public/index.html');
+      res.sendFile(path.join(__dirname, 'public', 'down.html'));
     });
   } else {
-    app.set('views', './views');
+    app.set('views', path.join(__dirname, 'views'));
     app.set('view engine', 'ejs');
     app.get('/', (req, res) => {
       res.render('home');
