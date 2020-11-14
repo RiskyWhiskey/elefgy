@@ -1,7 +1,7 @@
 const winston = require('winston');
 const mongoose = require('mongoose');
 
-setupMongoose = {
+const setupMongoose = {
   start: () => {
     mongoose.connect(process.env.DATABASE_URI, {
       useNewUrlParser: true,
