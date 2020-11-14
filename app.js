@@ -12,10 +12,7 @@ const environment = process.env.NODE_ENV || 'development';
 // The logs
 const logger = winston.createLogger({
   level: 'info',
-  format: winston.format.combine(
-    winston.format.colorize(),
-    winston.format.simple(),
-  ),
+  format: winston.format.simple(),
   transports: [
     new winston.transports.Console(),
   ],
@@ -26,10 +23,6 @@ if (environment === 'development') {
   require('dotenv').config();
   logger.add(new winston.transports.File({
       filename: 'logs/app.log',
-      format: winston.format.combine(
-        winston.format.uncolorize(),
-        winston.format.simple(),
-      ),
       maxsize: 5242880,
       maxFiles: 3,
       tailable: true,
