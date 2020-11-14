@@ -6,36 +6,34 @@ const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
 
+const environment = process.env.NODE_ENV || 'development';
+
 // The logs
 const logger = winston.createLogger({
   level: 'info',
-  format: winston.format.json(),
+  format: winston.format.combine(
+    winston.format.colorize(),
+    winston.format.simple(),
+  ),
   transports: [
-    new winston.transports.File({
-      filename: 'logs/error.log',
-      level: 'error',
-      maxsize: 5242880,
-      maxFiles: 3,
-      tailable: true,
-    }),
-    new winston.transports.File({
-      filename: 'logs/combined.log',
-      maxsize: 5242880,
-      maxFiles: 5,
-      tailable: true,
-    }),
+    new winston.transports.Console(),
   ],
 });
 
 // Development only
-if (process.env.NODE_ENV !== 'production') {
+if (environment === 'development') {
   require('dotenv').config();
-  logger.add(new winston.transports.Console({
-    format: winston.format.combine(
-      winston.format.colorize(),
-      winston.format.simple()
-    ),
-  }));
+  logger.add(new winston.transports.File({
+      filename: 'logs/app.log',
+      format: winston.format.combine(
+        winston.format.uncolorize(),
+        winston.format.simple(),
+      ),
+      maxsize: 5242880,
+      maxFiles: 3,
+      tailable: true,
+    })
+  );
 }
 
 // Config could be better
