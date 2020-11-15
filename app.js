@@ -9,13 +9,15 @@ const helmet = require('helmet');
 
 const environment = process.env.NODE_ENV || 'development';
 
+// Setup the logging
+const setupWinston = require('./bin/setupWinston');
+setupWinston.start();
+
 // Development only
 if (environment === 'development') {
-  require('dotenv').config();
+  const dotenv = require('dotenv').config();
+  setupWinston.toFile();
 }
-
-// Setup the logging
-require('./bin/setupWinston').start();
 
 // Config could be better
 const elefgy = {
@@ -57,12 +59,14 @@ if (cluster.isMaster) {
 
 } else {
   // Workers connect to database
+  const setupMongoose = require('./bin/setupMongoose');
   try {
-    require('./bin/setupMongoose').start();
+    setupMongoose.start();
   } catch {
     winston.error(`worker ${process.pid} cannot connect to database`);
     process.exit(1);
   }
+  setupMongoose.listen();
   // Each worker is serving requests
   const app = express();
   app.use(helmet());

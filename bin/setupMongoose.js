@@ -9,6 +9,8 @@ const setupMongoose = {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
+  },
+  listen: () => {
     mongoose.connection.on('error', () => {
       winston.error(`worker ${process.pid} has had a database connection error`);
     });
@@ -18,7 +20,7 @@ const setupMongoose = {
     mongoose.connection.on('disconnected', () => {
       winston.info(`worker ${process.pid} disconnected from database`);
     });
-  }
+  },
 };
 
 module.exports = setupMongoose;
