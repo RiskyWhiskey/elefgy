@@ -15,7 +15,8 @@ setupWinston.start();
 
 // Development only
 if (environment === 'development') {
-  const dotenv = require('dotenv').config();
+  const dotenv = require('dotenv');
+  dotenv.config();
   const logFile = process.env.LOG_FILE;
   setupWinston.toFile(logFile);
 }
@@ -64,7 +65,7 @@ if (cluster.isMaster) {
   const database = process.env.DATABASE_URI;
   try {
     setupMongoose.start(database);
-  } catch {
+  } catch (err) {
     winston.error(`worker ${process.pid} cannot connect to database`);
     process.exit(1);
   }
