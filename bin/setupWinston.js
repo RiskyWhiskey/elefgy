@@ -12,9 +12,9 @@ const setupWinston = {
       ],
     });
   },
-  toFile: () => {
+  toFile: (file) => {
     winston.add(new winston.transports.File({
-      filename: 'logs/app.log',
+      filename: file,
       maxsize: 5242880,
       maxFiles: 3,
       tailable: true,
