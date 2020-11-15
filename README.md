@@ -11,8 +11,14 @@ old-school single-player role-playing game.
 
 # When?
 
-RiskyWhiskey is currently a one-man team but there is hope there will be a
-working beta within the first half of 2021.
+RiskyWhiskey is currently a one-man team but hopefully there will be a working
+beta within the first half of 2021.
+
+# Ethical Coding
+
+We will never harvest data for profit. This project is open source for security
+and transparency. We trust and appreciate our users to help keep the project
+going through donations.
 
 # Special Thanks To
 
