@@ -61,15 +61,15 @@ if (cluster.isMaster) {
 
 } else {
   // Workers connect to database
-  // const setupMongoose = require('./bin/setupMongoose');
-  // const database = process.env.DATABASE_URI;
-  // try {
-  //   setupMongoose.start(database);
-  // } catch (err) {
-  //   winston.error(`worker ${process.pid} cannot connect to database`);
-  //   process.exit(1);
-  // }
-  // setupMongoose.listen();
+  const setupMongoose = require('./bin/setupMongoose');
+  const database = process.env.DATABASE_URI;
+  try {
+    setupMongoose.start(database);
+  } catch (err) {
+    winston.error(`worker ${process.pid} cannot connect to database`);
+    process.exit(1);
+  }
+  setupMongoose.listen();
   // Each worker is serving requests
   const app = express();
   app.use(helmet());
