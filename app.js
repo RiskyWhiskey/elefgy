@@ -74,17 +74,11 @@ if (cluster.isMaster) {
   const app = express();
   app.use(helmet());
   app.use(express.static(path.join(__dirname, 'public')));
-  if (process.env.ELEFGY_DOWN === 'true') {
-    app.get('/*', (req, res) => {
-      res.sendFile(path.join(__dirname, 'public', 'down.html'));
-    });
-  } else {
-    app.set('views', path.join(__dirname, 'views'));
-    app.set('view engine', 'ejs');
-    app.get('/', (req, res) => {
-      res.render('home');
-    });
-  }
+  app.set('views', path.join(__dirname, 'views'));
+  app.set('view engine', 'ejs');
+  app.get('/', (req, res) => {
+    res.render('home');
+  });
   const port = process.env.PORT || 5000;
   const server = app.listen(port);
   // Graceful exit
