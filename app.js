@@ -10,7 +10,7 @@ const helmet = require('helmet');
 const environment = process.env.NODE_ENV || 'development';
 
 // Setup the logging
-const setupWinston = require('./bin/setupWinston');
+const setupWinston = require('./lib/setupWinston');
 setupWinston.start();
 
 // Development only
@@ -61,7 +61,7 @@ if (cluster.isMaster) {
 
 } else {
   // Workers connect to database
-  const setupMongoose = require('./bin/setupMongoose');
+  const setupMongoose = require('./lib/setupMongoose');
   const database = process.env.DATABASE_URI;
   try {
     setupMongoose.start(database);
