@@ -16,9 +16,8 @@ beta within the first half of 2021.
 
 # Ethical Coding
 
-We will never harvest data for profit. This project is open source for security
-and transparency. We trust and appreciate our users to help keep the project
-going through donations.
+In this project the code is open source for integrity, transparency, and
+security. Data is securely held and encrypted in server space.
 
 # Special Thanks To
 
