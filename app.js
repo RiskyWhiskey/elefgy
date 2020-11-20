@@ -45,8 +45,8 @@ if (cluster.isMaster) {
 } else {
   // Workers connect to database
   const database = require('./lib/database');
-  const databaseURI = process.env.DATABASE_URI;
-  database.start(databaseURI);
+  const databaseUrl = process.env.DATABASE_URI;
+  database.start(databaseUrl);
   database.listen();
   // Each worker is serving requests
   const app = express();
