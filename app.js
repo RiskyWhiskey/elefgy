@@ -63,12 +63,7 @@ if (cluster.isMaster) {
   // Workers connect to database
   const setupMongoose = require('./lib/setupMongoose');
   const database = process.env.DATABASE_URI;
-  try {
-    setupMongoose.start(database);
-  } catch (err) {
-    winston.error(`worker ${process.pid} cannot connect to database`);
-    process.exit(1);
-  }
+  setupMongoose.start(database);
   setupMongoose.listen();
   // Each worker is serving requests
   const app = express();
