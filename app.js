@@ -10,15 +10,15 @@ const helmet = require('helmet');
 const environment = process.env.NODE_ENV || 'development';
 
 // Setup the logging
-const setupWinston = require('./lib/setupWinston');
-setupWinston.start();
+const logging = require('./lib/logging');
+logging.start();
 
 // Development only
 if (environment === 'development') {
   const dotenv = require('dotenv');
   dotenv.config();
   const logFile = process.env.LOG_FILE;
-  setupWinston.toFile(logFile);
+  logging.toFile(logFile);
 }
 
 // Config could be better
@@ -31,9 +31,9 @@ if (cluster.isMaster) {
   // Create workers
   winston.info(`${elefgy.name} ${elefgy.version} starting (${process.pid})`);
   const clusterSize = process.env.WEB_CONCURRENCY || 1;
-  const setupCluster = require('./lib/setupCluster');
-  setupCluster.start(clusterSize);
-  setupCluster.liston();
+  const threads = require('./lib/threads');
+  threads.start(clusterSize);
+  threads.liston();
   // Exit and kill all workers
   process.on('SIGTERM', (code) => {
     for (const id in cluster.workers) {
@@ -44,10 +44,10 @@ if (cluster.isMaster) {
 
 } else {
   // Workers connect to database
-  const setupMongoose = require('./lib/setupMongoose');
-  const database = process.env.DATABASE_URI;
-  setupMongoose.start(database);
-  setupMongoose.listen();
+  const database = require('./lib/database');
+  const databaseURI = process.env.DATABASE_URI;
+  database.start(databaseURI);
+  database.listen();
   // Each worker is serving requests
   const app = express();
   app.use(helmet());
