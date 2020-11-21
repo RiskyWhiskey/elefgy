@@ -72,7 +72,7 @@ if (cluster.isMaster) {
   );
   const staticUrl = process.env.STATIC_URL;
   const userContentUrl = process.env.USER_CONTENT_URL;
-  app.use(express.static(path.join(__dirname, 'public')));
+  app.use(express.static(staticUrl));
   app.set('views', path.join(__dirname, 'views'));
   app.set('view engine', 'ejs');
   app.get('/', (req, res) => {
