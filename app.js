@@ -5,7 +5,7 @@ const winston = require('winston');
 const cluster = require('cluster');
 const express = require('express');
 const mongoose = require('mongoose');
-//const helmet = require('helmet');
+const helmet = require('helmet');
 
 const environment = process.env.NODE_ENV || 'development';
 
@@ -50,12 +50,36 @@ if (cluster.isMaster) {
   database.listen();
   // Each worker is serving requests
   const app = express();
-  //app.use(helmet());
+  const allowedOrigins = process.env.ALLOWED_ORIGINS;
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          defaultSrc: ["'self'"],
+          baseUri: ["'self'"],
+          blockAllMixedContent: [],
+          fontSrc: ["'self' https: data:"],
+          frameAncestors: ["'self'"],
+          imgSrc: ["'self'", allowedOrigins],
+          objectSrc: ["'none'"],
+          scriptSrc: ["'self'"],
+          scriptSrcAttr: ["'none'"],
+          styleSrc: ["'self' https: 'unsafe-inline'"],
+          upgradeInsecureRequests: [],
+        },
+      },
+    })
+  );
+  const staticUrl = process.env.STATIC_URL;
+  const userContentUrl = process.env.USER_CONTENT_URL;
   app.use(express.static(path.join(__dirname, 'public')));
   app.set('views', path.join(__dirname, 'views'));
   app.set('view engine', 'ejs');
   app.get('/', (req, res) => {
-    res.render('home');
+    res.render('home', {
+      staticUrl: staticUrl,
+      userContentUrl: userContentUrl,
+    });
   });
   const port = process.env.PORT || 5000;
   const server = app.listen(port);
