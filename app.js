@@ -33,7 +33,7 @@ if (cluster.isMaster) {
   const clusterSize = process.env.WEB_CONCURRENCY || 1;
   const threads = require('./lib/threads');
   threads.start(clusterSize);
-  threads.liston();
+  threads.listen();
   // Exit and kill all workers
   process.on('SIGTERM', (code) => {
     for (const id in cluster.workers) {
@@ -46,7 +46,7 @@ if (cluster.isMaster) {
   // Workers connect to database
   const database = require('./lib/database');
   const databaseUrl = process.env.DATABASE_URI;
-  database.start(databaseUrl);
+  database.connect(databaseUrl);
   database.listen();
   // Each worker is serving requests
   const app = express();
