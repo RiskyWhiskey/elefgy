@@ -47,7 +47,6 @@ if (cluster.isMaster) {
   database.listen();
   // Each worker is serving requests
   const app = express();
-  const allowedOrigins = process.env.ALLOWED_ORIGINS;
   app.use(
     helmet({
       contentSecurityPolicy: {
@@ -57,7 +56,7 @@ if (cluster.isMaster) {
           blockAllMixedContent: [],
           fontSrc: ["'self' https: data:"],
           frameAncestors: ["'self'"],
-          imgSrc: ["'self'", allowedOrigins],
+          imgSrc: ["'self'", config.allowedOrigins],
           objectSrc: ["'none'"],
           scriptSrc: ["'self'"],
           scriptSrcAttr: ["'none'"],
@@ -67,15 +66,13 @@ if (cluster.isMaster) {
       },
     })
   );
-  const staticUrl = process.env.STATIC_URL;
-  const userContentUrl = process.env.USER_CONTENT_URL;
-  app.use(express.static(staticUrl));
+  app.use(express.static(config.staticUrl));
   app.set('views', path.join(__dirname, 'views'));
   app.set('view engine', 'ejs');
   app.get('/', (req, res) => {
     res.render('home', {
-      staticUrl: staticUrl,
-      userContentUrl: userContentUrl,
+      staticUrl: config.staticUrl,
+      userContentUrl: config.userContentUrl,
     });
   });
   const port = process.env.PORT || 5000;
