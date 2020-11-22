@@ -21,15 +21,12 @@ if (environment === 'development') {
   logging.toFile(logFile);
 }
 
-// Config could be better
-const elefgy = {
-  name: 'elefgy',
-  version: '0.0.1',
-};
+// Commonly used strings
+const config = require('./lib/config');
 
 if (cluster.isMaster) {
   // Create workers
-  winston.info(`${elefgy.name} ${elefgy.version} starting (${process.pid})`);
+  winston.info(`${config.name} ${config.version} starting (${process.pid})`);
   const clusterSize = process.env.WEB_CONCURRENCY || 1;
   const threads = require('./lib/threads');
   threads.start(clusterSize);
