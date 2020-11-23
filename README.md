@@ -1,4 +1,4 @@
-![elefgy logo](public/images/elefgy_logo.png)
+![elefgy logo](public/images/elefgy_logo_black.png)
 
 # *noun*, el·ef·jee, [ɛl.ɛf.dʒi]
 
