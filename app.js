@@ -17,7 +17,7 @@ logging.start();
 if (environment === 'development') {
   const dotenv = require('dotenv');
   dotenv.config();
-  const logFile = process.env.LOG_FILE;
+  const logFile = './logs/app.log';
   logging.toFile(logFile);
 }
 
@@ -27,9 +27,8 @@ const config = require('./lib/config');
 if (cluster.isMaster) {
   // Create workers
   winston.info(`${config.name} ${config.version} starting (${process.pid})`);
-  const clusterSize = process.env.WEB_CONCURRENCY || 1;
   const threads = require('./lib/threads');
-  threads.start(clusterSize);
+  threads.start(config.workerCluster);
   threads.listen();
   // Exit and kill all workers
   process.on('SIGTERM', (code) => {
@@ -42,8 +41,8 @@ if (cluster.isMaster) {
 } else {
   // Workers connect to database
   const database = require('./lib/database');
-  const databaseUrl = process.env.DATABASE_URI;
-  database.connect(databaseUrl);
+  const databaseUri = process.env.DATABASE_URI;
+  database.connect(databaseUri);
   database.listen();
   // Each worker is serving requests
   const app = express();
@@ -75,8 +74,7 @@ if (cluster.isMaster) {
       userContentUrl: config.userContentUrl,
     });
   });
-  const port = process.env.PORT || 5000;
-  const server = app.listen(port);
+  const server = app.listen(config.port);
   // Graceful exit
   process.on('exit', () => {
     mongoose.disconnect();
