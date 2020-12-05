@@ -21,7 +21,7 @@ if (environment === 'development') {
   logging.toFile(logFile);
 }
 
-// Commonly used strings
+// Commonly used constants
 const config = require('./lib/config');
 
 if (cluster.isMaster) {
@@ -32,9 +32,7 @@ if (cluster.isMaster) {
   threads.listen();
   // Exit and kill all workers
   process.on('SIGTERM', (code) => {
-    for (const id in cluster.workers) {
-      cluster.workers[id].kill();
-    }
+    for (const id in cluster.workers) cluster.workers[id].kill();
     winston.info(`${elefgy.name} exiting (${code})`);
   });
 
