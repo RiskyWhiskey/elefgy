@@ -1,48 +1,34 @@
 'use strict';
 
-const path = require('path');
-const winston = require('winston');
 const cluster = require('cluster');
+const winston = require('winston');
 const express = require('express');
-const mongoose = require('mongoose');
 const helmet = require('helmet');
+//const mongoose = require('mongoose');
 
 const environment = process.env.NODE_ENV || 'development';
 
-// Setup the logging
-const logging = require('./lib/logging');
-logging.start();
-
-// Development only
 if (environment === 'development') {
   const dotenv = require('dotenv');
   dotenv.config();
-  const logFile = './logs/app.log';
-  logging.toFile(logFile);
 }
 
-// Commonly used constants
 const config = require('./lib/config');
+const logging = require('./lib/logging');
+const threads = require('./lib/threads');
+//const database = require('./lib/database');
+
+logging.start();
 
 if (cluster.isMaster) {
-  // Create workers
   winston.info(`${config.name} ${config.version} starting (${process.pid})`);
-  const threads = require('./lib/threads');
-  threads.start(config.workerCluster);
-  threads.listen();
-  // Exit and kill all workers
-  process.on('SIGTERM', (code) => {
-    for (const id in cluster.workers) cluster.workers[id].kill();
-    winston.info(`${elefgy.name} exiting (${code})`);
-  });
+  threads.createWorkers(config.workerCluster);
+  threads.listenToWokers();
+  threads.killWorkersOnExit();
 
 } else {
-  // Workers connect to database
-  const database = require('./lib/database');
-  const databaseUri = process.env.DATABASE_URI;
-  database.connect(databaseUri);
-  database.listen();
-  // Each worker is serving requests
+  //const databaseUri = config.databaseUri;
+  //database.connect(databaseUri);
   const app = express();
   app.use(
     helmet({
@@ -64,7 +50,7 @@ if (cluster.isMaster) {
     })
   );
   app.use(express.static(config.staticUrl));
-  app.set('views', path.join(__dirname, 'views'));
+  app.set('views', './views');
   app.set('view engine', 'ejs');
   app.get('/', (req, res) => {
     res.render('home', {
@@ -73,9 +59,8 @@ if (cluster.isMaster) {
     });
   });
   const server = app.listen(config.port);
-  // Graceful exit
   process.on('exit', () => {
-    mongoose.disconnect();
+    //mongoose.disconnect();
     server.close();
   });
 }
