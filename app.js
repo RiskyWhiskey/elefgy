@@ -27,8 +27,7 @@ if (cluster.isMaster) {
   threads.killWorkersOnExit();
 
 } else {
-  //const databaseUri = config.databaseUri;
-  //database.connect(databaseUri);
+  //database.connect(config.databaseUri);
   const app = express();
   app.use(
     helmet({
