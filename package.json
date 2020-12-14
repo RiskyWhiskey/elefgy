@@ -1,11 +1,11 @@
 {
   "name": "elefgy",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Gamers looking for groups",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "start": "node index.js",
-    "devStart": "nodemon index.js"
+    "start": "node app.js",
+    "devStart": "nodemon app.js"
   },
   "repository": {
     "type": "git",
@@ -21,7 +21,10 @@
   "dependencies": {
     "ejs": "^3.1.5",
     "express": "^4.17.1",
-    "helmet": "^4.1.1"
+    "helmet": "^4.2.0",
+    "mongoose": "^5.11.7",
+    "uuid": "^8.3.2",
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "dotenv": "^8.2.0",

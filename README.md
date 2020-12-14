@@ -1,4 +1,4 @@
-![elefgy logo](assets/elefgy_logo.png)
+![elefgy logo](public/images/elefgy_logo_for_readme.svg)
 
 # *noun*, el·ef·jee, [ɛl.ɛf.dʒi]
 
@@ -11,8 +11,13 @@ old-school single-player role-playing game.
 
 # When?
 
-RiskyWhiskey is currently a one-man team but there is hope there will be a
-working beta within the first half of 2021.
+RiskyWhiskey is currently a one-man team but hopefully there will be a working
+beta within the first half of 2021.
+
+# Ethical Coding
+
+In this project the code is open source for integrity, transparency, and
+security. Data is securely held and encrypted in server space.
 
 # Special Thanks To
 

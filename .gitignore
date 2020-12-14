@@ -1,8 +1,7 @@
 # Ignore these please
-node_modules
 .env
-
-# OS X temporary files that should never be committed
+logs
+node_modules
 .vs
 .DS_Store
 *.swp
