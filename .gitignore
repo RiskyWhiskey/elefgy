@@ -1,7 +1,7 @@
 # Ignore these please
-node_modules
 .env
 logs
+node_modules
 .vs
 .DS_Store
 *.swp
