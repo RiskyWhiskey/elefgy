@@ -21,6 +21,16 @@ security. User data is securely held encrypted in server space. We will strive
 to deliver a quality product, for our users trust, and comply with best 
 practices.
 
+# Contributing
+
+A document outlining code contribution and issuing bugs can be found in the wiki
+[here](https://github.com/RiskyWhiskey/elefgy/wiki/Contributing-To-elefgy).
+
+# Change Log
+
+All changes between releases can be found in the wiki page
+[here](https://github.com/RiskyWhiskey/elefgy/wiki/elefgy-Change-Log).
+
 # Special Thanks To
 
 ## Core Team
