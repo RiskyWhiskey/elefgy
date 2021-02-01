@@ -12,7 +12,7 @@ old-school single-player role-playing game.
 # When?
 
 RiskyWhiskey is currently a one-man development team but hopefully there will
-be a working beta within the first half of 2021.
+be a working beta in 2021.
 
 # Ethical Coding
 
