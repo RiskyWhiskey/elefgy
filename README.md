@@ -12,7 +12,7 @@ old-school single-player role-playing game.
 # When?
 
 RiskyWhiskey is currently a one-man development team but hopefully there will
-be a working beta in 2021.
+be a working beta in 2022.
 
 # Ethical Coding
 
@@ -41,7 +41,8 @@ All changes between releases can be found in the wiki page
 
 # License
 
-Copyright © 2019 Ian Whitnall ([@NyxTheMage](https://github.com/NyxTheMage))
+Copyright © 2019-2022 [RiskyWhiskey](https://riskywhiskey.com), Ian Whitnall
+([@NyxTheMage](https://github.com/NyxTheMage))
 
 This Source Code Form is subject to the terms of the Mozilla Public License,
 v. 2.0, [LICENSE.md](LICENSE.md). If a copy of the MPL was not distributed
