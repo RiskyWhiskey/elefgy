@@ -18,8 +18,9 @@ be a working beta in 2022.
 
 In this project the code is open source for integrity, transparency, and
 security. User data is securely held encrypted in server space. We will strive
-to deliver a quality product, for our users trust, and comply with best 
-practices.
+to deliver a quality product for our users trust while complying with best 
+practices. No manipulative algorithms or wedging blockchain into where it
+doesn't belong.
 
 # Contributing
 

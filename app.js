@@ -1,3 +1,6 @@
+// Copyright 2019 elefgy authors. All rights reserved.
+// Use of this source code is governed by Mozilla Public License v2, found in the LICENSE file.
+
 'use strict';
 
 const cluster = require('cluster');
